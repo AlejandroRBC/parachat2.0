@@ -35,6 +35,7 @@ const passwordRoutes = require('./routes/passwordRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const clientePublicoRoutes = require('./routes/clientePublicoRoutes')
 const superAdminRoutes = require('./routes/superAdminRoutes');
+const planesRoutes = require('./routes/planesRoutes');
 
 // --- 4. USO DE RUTAS ---
 app.use('/api/auth', authRoutes);
@@ -43,6 +44,7 @@ app.use('/api/password', passwordRoutes);
 app.use('/api/clientes', clienteRoutes);
 app.use('/api/clientes-publico', clientePublicoRoutes); 
 app.use('/api/super-admin', superAdminRoutes);
+app.use('/api/planes', planesRoutes);
 
 // --- 5. ENDPOINTS DE PRUEBA PARA VERIFICAR ---
 app.get('/api/test', (req, res) => {

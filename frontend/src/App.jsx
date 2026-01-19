@@ -86,17 +86,20 @@ function App() {
           } />
 
           {/* --- RUTAS PROTEGIDAS --- */}
+
+          <Route path="/super-admin" element={
+              <PrivateRoute requiredRoles={['super_admin']}>
+                  <DashboardSuperAdmin />
+              </PrivateRoute>
+          } />
+          
           <Route path="/dashboard" element={
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>
           } />
           <Route path="/microempresa/:id" element={<MicroempresaProductos />} />
-          <Route path="/super-admin" element={
-              <PrivateRoute requiredRoles={['super_admin']}>
-                  <DashboardSuperAdmin />
-              </PrivateRoute>
-          } />
+          
           {/* RUTA DE CLIENTES (Añadida aquí para la defensa) */}
           <Route path="/clientes" element={
             <PrivateRoute>

@@ -28,24 +28,29 @@ export function MainLayout({ children }) {
   const getNavItems = () => {
     const items = [];
 
-    // 1. Rutas Básicas (Para todos)
-    items.push({ label: 'Dashboard', icon: IconHome2, path: '/dashboard' });
+    // 1. Dashboard según rol
+    if (['administrador', 'vendedor'].includes(user?.rol)) {
+      items.push({ label: 'Dashboard', icon: IconHome2, path: '/dashboard' });
+    }
 
-    // 2. Rutas de Operación (Visibles para todos: Vendedor, Admin, SuperAdmin)
-    
-    items.push({ label: 'Ventas', icon: IconShoppingCart, path: '/ventas' });
+    if (['vendedor'].includes(user?.rol)) {
+      items.push({ label: 'Ventas', icon: IconShoppingCart, path: '/ventas' });
+    }
 
-    // 3. Rutas de Administración (Solo Admin
+    // 3. Rutas de Administración (Solo Admin)
     if (['administrador'].includes(user?.rol)) {
       items.push({ label: 'Usuarios', icon: IconUsers, path: '/usuarios' });
       items.push({ label: 'Clientes', icon: IconAddressBook, path: '/clientes' });
+      items.push({ label: 'Ventas', icon: IconShoppingCart, path: '/ventas' });
       items.push({ label: 'Inventario', icon: IconPackage, path: '/inventario' });
       items.push({ label: 'Suscripcion', icon: IconCreditCard, path: '/suscripcion' });
     }
 
-    // 4. Rutas de Super Admin (Solo SuperAdmin)
-    if (user?.rol === 'super_admin') {
-      items.push({ label: 'Super Admin', icon: IconShield,path: '/super-admin' });
+    if (['super_admin'].includes(user?.rol)) {
+      items.push({ label: 'Usuarios', icon: IconUsers, path: '/usuarios' });
+      items.push({ label: 'Clientes', icon: IconAddressBook, path: '/clientes' });
+      items.push({ label: 'Suscripcion', icon: IconCreditCard, path: '/suscripcion' });
+      items.push({ label: 'Microempresas', icon: IconHome2, path: '/ventas' });
     }
 
     return items;

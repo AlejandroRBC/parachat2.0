@@ -237,23 +237,34 @@ exports.logout = (req, res) => {
     res.json({ message: "Sesión cerrada exitosamente" });
 };
 
-// OBTENER LISTA DE MICROEMPRESAS (para vendedores)
-// Cambiamos 'plan_pago' por 'plan_id' o hacemos un JOIN para traer el nombre del plan
+// En authController.js, modifica la función getMicroempresas:
 exports.getMicroempresas = async (req, res) => {
     try {
-        const query = `
+        const { all } = req.query;
+        
+        let query = `
             SELECT 
                 m.id_microempresa, 
                 m.nombre, 
                 m.direccion, 
-                m.telefono, 
-                p.nombre_plan as plan_nombre 
+                m.telefono,
+                m.rubro,
+                m.descripcion,
+                m.estado,
+                m.fecha_registro,
+                p.nombre_plan as plan_nombre,
+                p.precio as plan_precio
             FROM MICROEMPRESA m
             LEFT JOIN plan_pago p ON m.plan_id = p.id_plan
-            WHERE m.estado = 'activa'
-            ORDER BY m.nombre
         `;
-
+        
+        // Si no es "all", solo mostrar activas
+        if (!all) {
+            query += " WHERE m.estado = 'activa'";
+        }
+        
+        query += " ORDER BY m.nombre";
+        
         const [rows] = await db.execute(query);
         res.json(rows);
     } catch (error) {
